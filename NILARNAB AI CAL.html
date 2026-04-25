@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stark Systems | MR NILARNAB Mark III</title>
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #00ffaa;
+            --danger: #ff0055;
+            --bg-deep: #02060c;
+            --bg-accent: #05162a;
+            --glass: rgba(0, 15, 30, 0.85);
+            --border: rgba(0, 212, 255, 0.3);
+            --text: #e0f7ff;
+            --glow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        [data-theme="minimal"] {
+            --primary: #ffffff;
+            --secondary: #555;
+            --bg-deep: #000;
+            --bg-accent: #111;
+            --glass: #0a0a0a;
+            --border: #333;
+            --text: #fff;
+        }
+
+        [data-theme="light"] {
+            --primary: #2d5cf7;
+            --secondary: #6e8efb;
+            --bg-deep: #f0f2f5;
+            --bg-accent: #ffffff;
+            --glass: rgba(255, 255, 255, 0.9);
+            --border: rgba(0,0,0,0.1);
+            --text: #1a1a1a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
+
+        body {
+            /* Professional Dual-Tone Dynamic Background */
+            background: radial-gradient(circle at center, var(--bg-accent) 0%, var(--bg-deep) 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text);
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* Jarvis Boot Sequence */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: 1s ease-in-out;
+        }
+
+        .arc-reactor {
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--glow), inset 0 0 20px rgba(0, 212, 255, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        .arc-inner {
+            width: 80%;
+            height: 80%;
+            border: 4px dashed var(--primary);
+            border-radius: 50%;
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.05); } }
+
+        /* Main Interface */
+        .hud-container {
+            width: 90%;
+            max-width: 800px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--glow);
+            transform: rotateX(5deg);
+            animation: slideIn 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(50px) rotateX(20deg); opacity: 0; }
+            to { transform: translateY(0) rotateX(0); opacity: 1; }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .title-box h1 {
+            font-size: 1.4rem;
+            letter-spacing: 5px;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .theme-switcher { display: flex; gap: 10px; }
+        .t-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 12px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+        .t-btn:hover { background: var(--primary); color: #000; box-shadow: var(--glow); }
+
+        /* Smart Input Field */
+        .engine-room { text-align: center; }
+
+        .input-box-wrap {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid var(--border);
+            padding: 25px;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 2rem;
+            text-align: center;
+            outline: none;
+            transition: 0.4s;
+            letter-spacing: 2px;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+            background: rgba(0,0,0,0.6);
+        }
+
+        .status-text {
+            font-size: 0.8rem;
+            margin-top: 10px;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            height: 20px;
+        }
+
+        /* Advanced Results Grid */
+        .results-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .result-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            padding: 20px;
+            border-radius: 15px;
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.5s ease-out forwards;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; height: 100%; width: 4px;
+            background: var(--primary);
+            box-shadow: var(--glow);
+        }
+
+        .result-card .u-label {
+            font-size: 0.7rem;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .result-card .u-val {
+            font-size: 1.4rem;
+            font-weight: bold;
+            word-break: break-all;
+        }
+
+        .empty-state {
+            grid-column: 1/-1;
+            opacity: 0.4;
+            padding: 40px;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="arc-reactor">
+            <div class="arc-inner"></div>
+        </div>
+        <h2 style="margin-top: 30px; letter-spacing: 8px; color: var(--primary);">SYSTEM LOADING...</h2>
+    </div>
+
+    <div class="hud-container">
+        <div class="header">
+            <div class="title-box">
+                <h1>NILARNAB <span style="color:var(--danger)">MK-III</span></h1>
+            </div>
+            <div class="theme-switcher">
+                <button class="t-btn" onclick="setTheme('cyber')">CYBER</button>
+                <button class="t-btn" onclick="setTheme('minimal')">MINIMAL</button>
+                <button class="t-btn" onclick="setTheme('light')">LIGHT</button>
+            </div>
+        </div>
+
+        <div class="engine-room">
+            <div class="input-box-wrap">
+                <input type="text" id="autoInput" placeholder="INPUT DATA..." autofocus autocomplete="off">
+                <div id="status" class="status-text">Awaiting input...</div>
+            </div>
+
+            <div id="results" class="results-display">
+                <div class="empty-state">System ready. Type value + unit (e.g., "10km", "50kg", "100c", "500w")</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Unit Matrix
+        const matrix = {
+            length: { 
+                m: 1, cm: 100, km: 0.001, ft: 3.28084, in: 39.3701, mm: 1000, mi: 0.000621
+            },
+            weight: { 
+                kg: 1, g: 1000, lb: 2.20462, oz: 35.274, mg: 1000000, ton: 0.001
+            },
+            temp: { c: 'temp', f: 'temp', k: 'temp' },
+            engineering: {
+                n: 1, pa: 1, j: 1, w: 1, 
+                bar: 0.00001, hp: 0.00134, kw: 0.001, psi: 0.000145
+            }
+        };
+
+        // Initialize HUD
+        window.onload = () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 1000);
+            }, 2500);
+        };
+
+        function setTheme(t) { document.body.setAttribute('data-theme', t); }
+
+        const input = document.getElementById('autoInput');
+        const results = document.getElementById('results');
+        const status = document.getElementById('status');
+
+        // Logic Engine
+        input.addEventListener('input', (e) => {
+            const raw = e.target.value.toLowerCase().trim();
+            const regex = /^([\d.-]+)\s*([a-z]+)$/;
+            const match = raw.match(regex);
+
+            if (match) {
+                const val = parseFloat(match[1]);
+                const unit = match[2];
+                calculate(val, unit);
+            } else if (raw === "") {
+                results.innerHTML = '<div class="empty-state">System ready. Type value + unit</div>';
+                status.innerText = "Awaiting input...";
+            }
+        });
+
+        function calculate(val, unit) {
+            let found = false;
+            results.innerHTML = '';
+
+            for (let type in matrix) {
+                if (matrix[type][unit]) {
+                    found = true;
+                    status.innerText = `ANALYZING ${type.toUpperCase()}...`;
+                    
+                    if (type === 'temp') {
+                        renderTemp(val, unit);
+                    } else {
+                        renderStandard(val, unit, matrix[type]);
+                    }
+                }
+            }
+
+            if (!found) status.innerText = "UNKNOWN UNIT DETECTED";
+        }
+
+        function renderStandard(val, unit, set) {
+            const base = val / set[unit];
+            Object.keys(set).forEach(u => {
+                if (u !== unit) {
+                    const res = base * set[u];
+                    const formatted = res < 0.001 ? res.toExponential(3) : res.toLocaleString(undefined, {maximumFractionDigits: 4});
+                    addCard(formatted, u.toUpperCase());
+                }
+            });
+        }
+
+        function renderTemp(val, unit) {
+            let c, f, k;
+            if (unit === 'c') { c = val; f = (val * 9/5) + 32; k = val + 273.15; }
+            if (unit === 'f') { f = val; c = (val - 32) * 5/9; k = c + 273.15; }
+            if (unit === 'k') { k = val; c = val - 273.15; f = (c * 9/5) + 32; }
+
+            if (unit !== 'c') addCard(c.toFixed(2), 'CELSIUS');
+            if (unit !== 'f') addCard(f.toFixed(2), 'FAHRENHEIT');
+            if (unit !== 'k') addCard(k.toFixed(2), 'KELVIN');
+        }
+
+        function addCard(val, label) {
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            card.innerHTML = `
+                <span class="u-label">${label}</span>
+                <div class="u-val">${val}</div>
+            `;
+            results.appendChild(card);
+        }
+    </script>
+</body>
+</html>

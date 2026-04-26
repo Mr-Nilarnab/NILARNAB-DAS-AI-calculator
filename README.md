@@ -1,6 +1,6 @@
-# 🖥️ NILARNAB DAS AI CALCULATOR (Mark III)
+# 🖥️ AI UNIT CAL (Mark III)
 
-<img width="1236" height="762" alt="recording2026-04-25220143_d8d0" src="https://github.com/user-attachments/assets/9b859c99-26e6-4350-b1db-93d0f000675a" />
+<img width="1236" height="796" alt="Screenshot 2026-04-26 083009" src="https://github.com/user-attachments/assets/a4574006-0920-4354-8f41-98acb5c2e88a" />
 
 ### *Next-Gen Unit Conversion Intelligence System*
 
